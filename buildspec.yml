@@ -17,6 +17,8 @@ phases:
           | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
   build:
     commands:
+      - echo building dev images...
+      - docker-compose up -d --build
       - echo building prod images...
       - >
         docker build \
