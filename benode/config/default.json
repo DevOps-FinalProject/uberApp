@@ -1,0 +1,4 @@
+{
+    "jwtPrivateKey": "uberApp",
+    "dbUrl": "mongodb+srv://vrdhoke:vrdhoke@uber.c7iad.mongodb.net/UberDB?retryWrites=true&w=majority"
+}

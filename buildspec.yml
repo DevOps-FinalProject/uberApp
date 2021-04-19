@@ -31,8 +31,16 @@ phases:
           --build-arg NODE_ENV=production \
           --build-arg REACT_APP_API_SERVICE_URL=$REACT_APP_API_SERVICE_URL \
           ./fe
+      - >
+        docker build \
+          -f benode/Dockerfile \
+          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/uber-benode:prod \
+          --build-arg NODE_ENV=production \
+          --build-arg REACT_APP_API_SERVICE_URL=$REACT_APP_API_SERVICE_URL \
+          ./benode
   post_build:
     commands:
     - echo pushing prod images to ecr...
     - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/uber-be:prod
     - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/uber-fe:prod
+    - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/uber-benode:prod
