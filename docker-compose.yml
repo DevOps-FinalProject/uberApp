@@ -6,7 +6,7 @@ services:
 
   be:
     build:
-      context: ./UberBe_python
+      context: ./be
       dockerfile: Dockerfile
     #~dk getting rid of this because this hides all the files in /usr/src/app since I didn't specify
     # the local folder on the host as a shared folder with virtualbox! Also, I have no idea why we
@@ -25,7 +25,7 @@ services:
   fe:
     stdin_open: true
     build:
-      context: ./UberFe_react
+      context: ./fe
       dockerfile: Dockerfile
     # ~dk same problem here..
     #volumes:

@@ -22,16 +22,16 @@ phases:
       - echo building prod images...
       - >
         docker build \
-          -f UberBe_python/Dockerfile \
+          -f be/Dockerfile \
           -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/uber-be:prod \
-          ./UberBe_python
+          ./be
       - >
         docker build \
-          -f UberFe_react/Dockerfile \
+          -f fe/Dockerfile \
           -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/uber-fe:prod \
           --build-arg NODE_ENV=production \
           --build-arg REACT_APP_API_SERVICE_URL=$REACT_APP_API_SERVICE_URL \
-          ./UberFe_react
+          ./fe
   post_build:
     commands:
     - echo pushing prod images to ecr...
