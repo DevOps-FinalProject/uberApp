@@ -10,14 +10,19 @@ import time
 from bson.json_util import dumps
 from bson.json_util import loads
 import requests
+import os
+url = os.environ['IPADDRESS']
 
 app = Flask(__name__)
 CORS(app)
-app.secret_key = "secrets"
+# db = MongoClient(
+#     "mongodb+srv://vrdhoke:vrdhoke@uber.c7iad.mongodb.net/UberDB?retryWrites=true&w=majority"
+# )
 db = MongoClient(
-    "mongodb+srv://vrdhoke:vrdhoke@uber.c7iad.mongodb.net/UberDB?retryWrites=true&w=majority",ssl=True,ssl_cert_reqs='CERT_NONE'
+    "mongodb://vrdhoke:vrdhoke@uber-shard-00-00.c7iad.mongodb.net:27017,uber-shard-00-01.c7iad.mongodb.net:27017,uber-shard-00-02.c7iad.mongodb.net:27017/UberDB?ssl=true&replicaSet=atlas-qoj2dg-shard-0&authSource=admin&retryWrites=true&w=majority"
 )
-url = "http://localhost:4000"
+# url = "http://localhost:4000"
+
 
 # @app.route("/user/bookings", methods=["POST"])
 # def book_bus():
@@ -75,6 +80,14 @@ def admin_logout():
         session.pop("username", None)
     return jsonify("Logout Success")
 
+@app.route("/pythontest", methods=["GET"])
+def test_end():
+    return jsonify("Hello from Python")
+
+@app.route("/pythontonode", methods=["GET"])
+def test_comm():
+    response = requests.get(f"{url}/user/nodetest")
+    return jsonify(response.text)
 
 # !Add Bus
 @app.route("/bus/new", methods=["POST"])

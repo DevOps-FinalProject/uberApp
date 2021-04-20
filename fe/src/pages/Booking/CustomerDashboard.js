@@ -92,7 +92,7 @@ export default function NavTabs() {
           aria-label="nav tabs example"
         >
           <LinkTab label="Book Bus" href="/addbus" {...a11yProps(0)} />
-          <LinkTab label="View Buses" href="/trash" {...a11yProps(1)} />
+          {/* <LinkTab label="View Buses" href="/trash" {...a11yProps(1)} /> */}
           <LinkTab label="Your Bookings" href="/spam" {...a11yProps(2)} />
           <IconButton aria-label="display more actions"  color="inherit" onClick={handleClose}>
             <Button variant="contained" color="primary" onClick={handleClose()}>
@@ -105,11 +105,11 @@ export default function NavTabs() {
       <TabPanel value={value} index={0}>
         <BookBus/>
       </TabPanel>
+      {/* <TabPanel value={value} index={1}>
+        <ViewCustomerBookings classes={{card:"card",root:"root",media:"media"}}/>
+      </TabPanel> */}
       <TabPanel value={value} index={1}>
         <ViewCustomerBookings classes={{card:"card",root:"root",media:"media"}}/>
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-      <ViewCustomerBookings/>
       </TabPanel>
     </div>
   );

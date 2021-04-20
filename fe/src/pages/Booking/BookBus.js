@@ -18,8 +18,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 require('dotenv').config();
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 // save keys to local storage
 const localStorageAuthKey = 'twtr:auth';
 function saveAuthorisation(keys) {
@@ -114,6 +119,7 @@ const SignIn = () => {
   const [isRes,setIsRes] = useState(false)
   const [date,setDate] = useState('')
   const [open, setOpen] = React.useState(false);
+  const [snacopen, setSnacopen] = React.useState(false);
   const [bookItem,setBookItem] = useState(null)
   const [authToken,setAuthToken] = useState(null)
   const [username,setUsername] = useState('')
@@ -155,7 +161,7 @@ const SignIn = () => {
     }
     
    await axios.post(bussearchUrl, bus).then((res) => {
-        cookies.set('authToken', res.headers['x-auth-token'], { path: '/' });
+        // cookies.set('authToken', res.headers['x-auth-token'], { path: '/' });
         alert(JSON.stringify(res.data));
         console.log("All buses")
         console.log(res.data);
@@ -177,6 +183,14 @@ const SignIn = () => {
     });
 
 }
+
+    const handleSnacClose = (event, reason) => {
+      if (reason === "clickaway") {
+        return;
+      }
+      setSnacopen(false);
+    };
+    
 
 
     function formatDate(date) {
@@ -204,29 +218,35 @@ const SignIn = () => {
     history.push("/");
   }
 
-  const bookBus = (item)=> {
+  const bookBus = async(item)=> {
     console.log("Bookitem")
     console.log(bookItem);
-
-    console.log("Token" + authToken)
-    console.log("Username "+username)
+    const cookies = new Cookies();
+    const aToken = await cookies.get("authToken");
+    const uname = await cookies.get("c-username");
+    console.log("Token" + aToken)
+    console.log("Username "+uname)
     console.log("Selected seats "+seats)
-        const auth = {headers: {'x-auth-token': authToken}};
-        const boookingUrl = `http://localhost:5000/trip/new`;
+        const auth = {headers: {'x-auth-token': aToken}};
+        const boookingUrl = process.env.REACT_APP_PYTHON_API_URL+`/trip/new`;
 
         const busDetails = {
-            authToken: authToken,
+            authToken: aToken,
             bus: bookItem._id,
-            user: username,
+            user: uname,
             seats: seats,
         }
         
         axios.post(boookingUrl, busDetails, auth).then((res) => {
-            alert(JSON.stringify(res.data));
+            // alert(JSON.stringify(res.data));
+            setOpen(false)
+            setSnacopen(true);
+            
         }).catch((e) => {
             alert(e.response.data);
         });
 
+        
     // const { items } = this.state;
     // console.log("Indelete");
     // console.log(itemp);
@@ -358,7 +378,7 @@ const SignIn = () => {
         <DialogTitle id="form-dialog-title">Book Bus</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Please select the seats you want to book
+            Please enter the number seats you want to book
           </DialogContentText>
           <TextField
             autoFocus
@@ -378,11 +398,11 @@ const SignIn = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          Bus Added Successfully!
+      <Snackbar open={snacopen} autoHideDuration={6000} onClose={handleSnacClose}>
+        <Alert onClose={handleSnacClose} severity="success">
+          Bus booked successfully!
         </Alert>
-      </Snackbar> */}
+      </Snackbar>
     </React.Fragment>
   )
 }

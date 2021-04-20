@@ -130,6 +130,11 @@ const SignUp = () => {
     //     history.goBack()
     //   }}
     // >
+    <div style={{overflow:'hidden'}}>
+      <div style={{float:'left',paddingLeft:"130px",paddingTop:"100px"}}>
+        <img src={"https://play-lh.googleusercontent.com/2ch1fQyPoEffpWdRdSbN1Usj5VsDYktrjO3X4ZGhOzmcxAelJCatY7wDEKqi2e3eV_cg"}></img>
+      </div>
+      <div style={{float:'left',paddingLeft:"190px"}}>
     <React.Fragment>
       <Paper className={classes.paper} elevation={6}>
         <div className={classes.container}>
@@ -236,6 +241,8 @@ const SignUp = () => {
       </Paper>
       
     </React.Fragment>
+    </div>
+    </div>
   );
 };
 

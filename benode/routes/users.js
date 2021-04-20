@@ -12,6 +12,10 @@ const { genToken } = require('../methods/token');
 const { json } = require('express');
 
 // get all registered user details
+router.get('/nodetest', async(req, res) => {
+    res.send("Hello from node");
+});
+
 router.get('/getDetails', async(req, res) => {
     const users = await User.find().sort('firstName');
     res.send(users);

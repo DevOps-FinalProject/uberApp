@@ -149,7 +149,12 @@ const SignIn = () => {
 
 
   return (
-    <React.Fragment>
+    <div style={{overflow:'hidden'}}>
+      <div style={{float:'left',paddingLeft:"130px",paddingTop:"100px"}}>
+        <img src={"https://play-lh.googleusercontent.com/2ch1fQyPoEffpWdRdSbN1Usj5VsDYktrjO3X4ZGhOzmcxAelJCatY7wDEKqi2e3eV_cg"}></img>
+      </div>
+      <div style={{float:'left',paddingLeft:"190px",paddingTop:"120px"}}>
+      <React.Fragment>
       <Paper className={classes.paper} elevation={6}>
         <div className={classes.container}>
         <Typography component="h1" variant="h5">
@@ -207,6 +212,8 @@ const SignIn = () => {
         <Link to="/signup">Register</Link>
       </Paper>
     </React.Fragment>
+    </div>
+    </div>
   )
 }
 
