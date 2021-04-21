@@ -373,7 +373,13 @@ const SignIn = () => {
           </Table>
         </Paper>}
       </div>
-      :<h1>Bus is not available</h1>)}
+      :
+      <div>
+        <Paper className={classes.paper} elevation={6}>
+          <h1>Bus is not available</h1>
+        </Paper></div>)}
+
+
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Book Bus</DialogTitle>
         <DialogContent>
