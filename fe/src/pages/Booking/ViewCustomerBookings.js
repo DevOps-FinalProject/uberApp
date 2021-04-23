@@ -153,12 +153,12 @@ export default class ViewCustomerBookings extends React.Component {
             alignItems="flex-start"
         >
           {this.state.items.map((item, i) => (
-          <Grid item xs={12} sm={6} md={3}>
-            <Card style = {{ width:300 }}>
+          <Grid item xs={8} sm={6} md={4}>
+            <Card style = {{ width:450,height:430 }}>
               <CardMedia
                 style = {{ height: 0, paddingTop: '36%'}}
                 image={
-                  "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/ieN2q3c75kbM/v0/1000x-1.jpg"
+                  "https://media.gettyimages.com/photos/bus-picture-id136521748?s=612x612"
                 }
                 title="UBER BUS"
               />

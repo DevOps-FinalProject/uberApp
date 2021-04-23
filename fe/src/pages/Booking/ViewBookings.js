@@ -12,16 +12,25 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 require("dotenv").config();
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
-    width: "100%",
-    marginTop: theme.spacing.unit * 3,
+    display: "flex",
+    // width: "100%",
+    // marginTop: theme.spacing.unit * 3,
     overflowX: "auto",
   },
-  table: {},
+  table: {
+    width: "100%",
+    // display: 'block',
+    // tableLayout: 'fixed',
+    overflowX: "auto",
+  },
+  TableCell:{
+    whiteSpace: 'nowrap'
+  }
 });
 
-export default class ViewBookings extends React.Component {
+class ViewBookings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -72,32 +81,32 @@ export default class ViewBookings extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-        <Paper>
-          <Table>
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell>Trip Id</TableCell>
-                <TableCell>User Email</TableCell>
-                <TableCell>Source</TableCell>
-                <TableCell>Destination</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Duration</TableCell>
-                <TableCell>Seats</TableCell>
-                <TableCell>Actions</TableCell>
+                <TableCell >Trip Id</TableCell>
+                <TableCell >User Email</TableCell>
+                <TableCell >Source</TableCell>
+                <TableCell >Destination</TableCell>
+                <TableCell >Date</TableCell>
+                <TableCell >Duration</TableCell>
+                <TableCell >Seats</TableCell>
+                <TableCell >Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {this.state.items.map((item, i) => {
                 return (
                   <TableRow key={`row-${i}`}>
-                    <TableCell>{item._id}</TableCell>
-                    <TableCell>{item.user}</TableCell>
-                    <TableCell>{item.bus.start}</TableCell>
-                    <TableCell>{item.bus.end}</TableCell>
-                    <TableCell>{item.bus.date}</TableCell>
-                    <TableCell>{item.bus.duration} Hrs</TableCell>
-                    <TableCell>{item.seats}</TableCell>
-                    <TableCell>
+                    <TableCell className={classes.TableCell}>{item._id}</TableCell>
+                    <TableCell className={classes.TableCell}>{item.user}</TableCell>
+                    <TableCell className={classes.TableCell}>{item.bus.start}</TableCell>
+                    <TableCell className={classes.TableCell}>{item.bus.end}</TableCell>
+                    <TableCell className={classes.TableCell}>{item.bus.date}</TableCell>
+                    <TableCell className={classes.TableCell}>{item.bus.duration} Hrs</TableCell>
+                    <TableCell className={classes.TableCell}>{item.seats}</TableCell>
+                    <TableCell className={classes.TableCell}>
                       <Button
                         onClick={this.deleteItem.bind(this, i, item)}
                         color="secondary"
@@ -116,4 +125,5 @@ export default class ViewBookings extends React.Component {
     );
   }
 }
-const StyledApp = withStyles(styles)(ViewBookings);
+// const StyledApp = withStyles(styles)(ViewBookings);
+export default withStyles(styles,{withTheme:true})(ViewBookings);

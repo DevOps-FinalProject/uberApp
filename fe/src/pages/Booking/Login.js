@@ -11,6 +11,10 @@ import Paper from '@material-ui/core/Paper'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from "@material-ui/core/styles";
+import PropTypes from 'prop-types';
+
 require('dotenv').config();
 
 // save keys to local storage
@@ -54,6 +58,9 @@ function logout() {
 
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1
+  },
   paper: {
     width: 'auto',
     marginLeft: theme.spacing(3),
@@ -67,9 +74,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(
-      3
-    )}px`,
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`,
+    // padding: theme.spacing.unit*2
   },
   avatar: {
     margin: theme.spacing(1),
@@ -97,7 +103,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const SignIn = () => {
+const SignIn = (props) => {
+  // const {classes} = props;
   const classes = useStyles()
   const history = useHistory()
   const [username, setUsername] = useState('')
@@ -149,11 +156,94 @@ const SignIn = () => {
 
 
   return (
-    <div style={{overflow:'hidden'}}>
-      <div style={{float:'left',paddingLeft:"130px",paddingTop:"100px"}}>
+    // <div className={classes.root}>
+    //   <Grid spacing={24}
+    //   container
+    //   // spacing={2}
+    //   direction="row"
+    //   justify="flex-start"
+    //   alignItems="flex-start">
+    //     <Grid item xs={12} sm={6} md={3}>
+    //       <img src={"https://play-lh.googleusercontent.com/2ch1fQyPoEffpWdRdSbN1Usj5VsDYktrjO3X4ZGhOzmcxAelJCatY7wDEKqi2e3eV_cg"}></img>
+    //     </Grid>
+    //     <Grid item xs={12} sm={6} md={3}>
+    //       <Paper className={classes.paper} elevation={6}>
+    //       <div className={classes.container}>
+    //       <Typography component="h1" variant="h5">
+    //           {'Sign In'}
+    //         </Typography>
+    //         <Typography gutterBottom>Login using username and password</Typography>
+    //         <form className={classes.form} onSubmit={handleSubmit} noValidate>
+    //           <TextField
+    //             value={username}
+    //             onInput={(e) => setUsername(e.target.value)}
+    //             variant="outlined"
+    //             margin="normal"
+    //             required
+    //             fullWidth
+    //             id="username"
+    //             label={'Username'}
+    //             name="username"
+    //             autoComplete="username"
+    //             autoFocus
+    //           />
+    //           <TextField
+    //             value={password}
+    //             onInput={(e) => setPassword(e.target.value)}
+    //             variant="outlined"
+    //             margin="normal"
+    //             required
+    //             fullWidth
+    //             name="password"
+    //             label={'Password'}
+    //             type="password"
+    //             id="password"
+    //             autoComplete="current-password"
+    //           />
+    //           <Button
+    //             type="submit"
+    //             fullWidth
+    //             variant="contained"
+    //             color="primary"
+    //             className={classes.submit}
+    //           >
+    //             {'Sign in'}
+    //           </Button>
+    //         </form>
+
+    //         <div
+    //           style={{
+    //             display: 'flex',
+    //             flexDirection: 'row',
+    //             width: '100%',
+    //             justifyContent: 'space-between',
+    //           }}
+    //         >
+    //         </div>
+    //       </div>
+    //       <Link to="/signup">Register</Link>
+    //     </Paper>
+    //     </Grid>
+    //   </Grid>
+    // </div>
+    
+    // <div>
+        <Grid spacing={24}
+          container
+          // spacing={2}
+          // direction="row"
+          justify="center"
+          // alignItems="flex-start"
+          // alignItems="center"
+          >
+
+      <Grid item spacing={12} xs={12} sm={6} md={6} >
+      {/* <div style={{float:'left',paddingLeft:"130px",paddingTop:"100px"}}> */}
         <img src={"https://play-lh.googleusercontent.com/2ch1fQyPoEffpWdRdSbN1Usj5VsDYktrjO3X4ZGhOzmcxAelJCatY7wDEKqi2e3eV_cg"}></img>
-      </div>
-      <div style={{float:'left',paddingLeft:"190px",paddingTop:"120px"}}>
+      {/* </div> */}
+      </Grid>
+      <Grid item spacing={12}  xs={12} sm={6} md={6}>
+      {/* <div style={{float:'left',paddingLeft:"190px",paddingTop:"120px"}}> */}
       <React.Fragment>
       <Paper className={classes.paper} elevation={6}>
         <div className={classes.container}>
@@ -212,9 +302,16 @@ const SignIn = () => {
         <Link to="/signup">Register</Link>
       </Paper>
     </React.Fragment>
-    </div>
-    </div>
+    {/* </div> */}
+    </Grid>
+    </Grid>
+    // </div>
   )
 }
 
+// SignIn.propTypes = {
+//   classes: PropTypes.object.isRequired,
+// };
+
 export default SignIn
+// export default withStyles(useStyles)(SignIn);

@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@material-ui/core/styles";
 import { TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import Paper from "@material-ui/core/Paper";
@@ -12,16 +12,24 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 require("dotenv").config();
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
-    width: "100%",
-    marginTop: theme.spacing.unit * 3,
+    display: "flex",
+    // width: "100%",
     overflowX: "auto",
   },
-  table: {},
+  table: {
+    width: "100%",
+    // display: 'block',
+    // tableLayout: 'fixed',
+    overflowX: "auto",
+  },
+  TableCell:{
+    whiteSpace: 'nowrap'
+  }
 });
 
-export default class ViewBuses extends React.Component {
+class ViewBuses extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -73,29 +81,29 @@ export default class ViewBuses extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-        <Paper>
-          <Table>
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell>Bus Id</TableCell>
-                <TableCell>Source</TableCell>
-                <TableCell>Destination</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Duration</TableCell>
-                <TableCell>Seats</TableCell>
-                <TableCell>Actions</TableCell>
+                <TableCell className={classes.TableCell}>Bus Id</TableCell>
+                <TableCell className={classes.TableCell}>Source</TableCell>
+                <TableCell className={classes.TableCell}>Destination</TableCell>
+                <TableCell className={classes.TableCell}>Date</TableCell>
+                <TableCell className={classes.TableCell}>Duration</TableCell>
+                <TableCell className={classes.TableCell}>Available Seats</TableCell>
+                <TableCell className={classes.TableCell}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {this.state.items.map((item, i) => {
                 return (
                   <TableRow key={`row-${i}`}>
-                    <TableCell>{item._id}</TableCell>
-                    <TableCell>{item.start}</TableCell>
-                    <TableCell>{item.end}</TableCell>
-                    <TableCell>{item.date}</TableCell>
-                    <TableCell>{item.duration} Hrs</TableCell>
-                    <TableCell>{item.seats}</TableCell>
+                    <TableCell className={classes.TableCell}>{item._id}</TableCell>
+                    <TableCell className={classes.TableCell}>{item.start}</TableCell>
+                    <TableCell className={classes.TableCell}>{item.end}</TableCell>
+                    <TableCell className={classes.TableCell}>{item.date}</TableCell>
+                    <TableCell className={classes.TableCell}>{item.duration} Hrs</TableCell>
+                    <TableCell className={classes.TableCell}>{item.seats}</TableCell>
                     <TableCell>
                       <Button
                         onClick={this.deleteItem.bind(this, i, item)}
@@ -115,4 +123,4 @@ export default class ViewBuses extends React.Component {
     );
   }
 }
-const StyledApp = withStyles(styles)(ViewBuses);
+export default withStyles(styles,{withTheme:true})(ViewBuses);

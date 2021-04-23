@@ -115,7 +115,7 @@ export default function NavTabs() {
         <AddBus/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ViewBuses/>
+        <ViewBuses />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <ViewBookings/>
