@@ -12,6 +12,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 require("dotenv").config();
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const styles = theme => ({
   root: {
     display: "flex",
@@ -56,6 +60,13 @@ class ViewBookings extends React.Component {
       });
   }
 
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({open:false})
+  };
+
   deleteItem(i, itemp) {
     console.log(itemp._id);
     console.log(itemp.user);
@@ -63,10 +74,11 @@ class ViewBookings extends React.Component {
           .delete(process.env.REACT_APP_PYTHON_API_URL+"/trip/delete/"+itemp.user+"/"+itemp._id)
           .then(response => {
             console.log(response);
-            alert(" Deleted Succesfully");
+            this.setState({open:true})
+            console.log("Deleted Succesfully");
           })
           .catch(error => {
-            alert("ERROR: Please check your User Bus id");
+            console.log("ERROR: Please check your User Bus id");
             console.log(error);
           });
 
@@ -120,7 +132,11 @@ class ViewBookings extends React.Component {
             </TableBody>
           </Table>
         </Paper>
-        
+        <Snackbar open={this.state.open} autoHideDuration={6000} onClose={this.handleClose}>
+          <Alert onClose={this.handleClose} severity="success">
+            Booking is cancelled!
+          </Alert>
+        </Snackbar>
       </div>
     );
   }

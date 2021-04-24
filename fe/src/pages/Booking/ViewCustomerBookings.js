@@ -17,6 +17,10 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 require("dotenv").config();
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const styles = (theme) => ({
   root: {
     width: "50%",
@@ -26,12 +30,12 @@ const styles = (theme) => ({
   table: {},
   media: {
     height: 140,
-    paddingTop:300
+    paddingTop: 300,
   },
   card: {
     flexGrow: 1,
-    padding: theme.spacing(2)
-}
+    padding: theme.spacing(2),
+  },
 });
 
 export default class ViewCustomerBookings extends React.Component {
@@ -39,6 +43,7 @@ export default class ViewCustomerBookings extends React.Component {
     super(props);
     this.state = {
       items: [],
+      open:false
     };
   }
 
@@ -47,14 +52,14 @@ export default class ViewCustomerBookings extends React.Component {
     const authToken = await cookies.get("authToken");
     const username = await cookies.get("c-username");
     console.log("Token");
-    console.log(username)
+    console.log(username);
     const auth = { headers: { "x-auth-token": authToken } };
     const getAllBusUrl = process.env.REACT_APP_PYTHON_API_URL + `/trip/booking`;
 
     const userDetails = {
-        user: username,
-        authToken: authToken,
-    }
+      user: username,
+      authToken: authToken,
+    };
     axios
       .post(getAllBusUrl, userDetails)
       .then((res) => {
@@ -65,6 +70,13 @@ export default class ViewCustomerBookings extends React.Component {
         alert(e.response.data);
       });
   }
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({open:false})
+  };
 
   deleteItem(i, itemp) {
     console.log(itemp._id);
@@ -79,21 +91,25 @@ export default class ViewCustomerBookings extends React.Component {
     //         alert("ERROR: Please check your User Bus id");
     //         console.log(error);
     //       });
-    let url = process.env.REACT_APP_PYTHON_API_URL+"/trip/delete/" + itemp.user + "/" + itemp._id;
-        console.log("Received values of form: ", itemp);
-        axios
-          .delete(url
-          )
-          .then(response => {
-            console.log(response);
-            alert(" Booking is cancelled");
-          })
-          .catch(error => {
-            alert("ERROR: Please check your User name/Booking id");
-            console.log(error);
-          });
-          
-
+    let url =
+      process.env.REACT_APP_PYTHON_API_URL +
+      "/trip/delete/" +
+      itemp.user +
+      "/" +
+      itemp._id;
+    console.log("Received values of form: ", itemp);
+    axios
+      .delete(url)
+      .then((response) => {
+        console.log(response);
+        this.setState({open:true})
+        console.log(" Booking is cancelled");
+      })
+      .catch((error) => {
+        alert("ERROR: Please check your User name/Booking id");
+        console.log(error);
+      });
+    
     const { items } = this.state;
     console.log("Indelete");
     console.log(itemp);
@@ -105,96 +121,62 @@ export default class ViewCustomerBookings extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.card}>
-        {/* <Paper>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Trip Id</TableCell>
-                <TableCell>User Email</TableCell>
-                <TableCell>Source</TableCell>
-                <TableCell>Destination</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Duration</TableCell>
-                <TableCell>Seats</TableCell>
-                <TableCell>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {this.state.items.map((item, i) => {
-                return (
-                  <TableRow key={`row-${i}`}>
-                    <TableCell>{item._id}</TableCell>
-                    <TableCell>{item.user}</TableCell>
-                    <TableCell>{item.bus.start}</TableCell>
-                    <TableCell>{item.bus.end}</TableCell>
-                    <TableCell>{item.bus.date}</TableCell>
-                    <TableCell>{item.bus.duration} Hrs</TableCell>
-                    <TableCell>{item.seats}</TableCell>
-                    <TableCell>
-                      <Button
-                        onClick={this.deleteItem.bind(this, i, item)}
-                        color="secondary"
-                      >
-                        <DeleteIcon />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </Paper> */}
-
         <Grid
-            container
-            spacing={2}
-            direction="row"
-            justify="flex-start"
-            alignItems="flex-start"
+          container
+          spacing={2}
+          direction="row"
+          justify="flex-start"
+          alignItems="flex-start"
         >
           {this.state.items.map((item, i) => (
-          <Grid item xs={8} sm={6} md={4}>
-            <Card style = {{ width:450,height:430 }}>
-              <CardMedia
-                style = {{ height: 0, paddingTop: '36%'}}
-                image={
-                  "https://media.gettyimages.com/photos/bus-picture-id136521748?s=612x612"
-                }
-                title="UBER BUS"
-              />
-              <CardContent>
-                {/* <Typography gutterBottom variant="h5" component="h2">
+            <Grid item xs={8} sm={6} md={4}>
+              <Card style={{ width: 450, height: 430 }}>
+                <CardMedia
+                  style={{ height: 0, paddingTop: "36%" }}
+                  image={
+                    item.bus.start == "Boston"
+                      ? "https://www.alux.com/wp-content/uploads/2016/06/752-Elegant-Lady-Exterior-Slides-Out-Spotlight-version.jpg"
+                      : "https://i0.wp.com/cwblog.sfo2.digitaloceanspaces.com/2017/09/27101916/newell.jpg?ssl=1"
+                  }
+                  title="UBER BUS"
+                />
+                <CardContent>
+                  {/* <Typography gutterBottom variant="h5" component="h2">
                   {item._id}
                 </Typography> */}
-                <Typography gutterBottom variant="h6" component="h6">
-                  User : {item.user}
-                </Typography>
-                <Typography gutterBottom variant="h6" component="h6">
-                  Source : {item.bus.start}
-                </Typography>
-                <Typography gutterBottom variant="h6" component="h6">
-                  Destination : {item.bus.end}
-                </Typography>
-                <Typography gutterBottom variant="h6" component="h6">
-                  Date : {item.bus.date}
-                </Typography>
-                <Typography gutterBottom variant="h6" component="h6">
-                  Seats : {item.seats}
-                </Typography>
-                <Button style={{float:"right"}}
-                        onClick={this.deleteItem.bind(this, i, item)}
-                        color="secondary"
-                      >
-                        Cancel booking
-                </Button>
-                <br/>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
+                  <Typography gutterBottom variant="h6" component="h6">
+                    User : {item.user}
+                  </Typography>
+                  <Typography gutterBottom variant="h6" component="h6">
+                    Source : {item.bus.start}
+                  </Typography>
+                  <Typography gutterBottom variant="h6" component="h6">
+                    Destination : {item.bus.end}
+                  </Typography>
+                  <Typography gutterBottom variant="h6" component="h6">
+                    Date : {item.bus.date}
+                  </Typography>
+                  <Typography gutterBottom variant="h6" component="h6">
+                    Seats : {item.seats}
+                  </Typography>
+                  <Button
+                    style={{ float: "right" }}
+                    onClick={this.deleteItem.bind(this, i, item)}
+                    color="secondary"
+                  >
+                    Cancel booking
+                  </Button>
+                  <br />
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
         </Grid>
-
-        
+        <Snackbar open={this.state.open} autoHideDuration={6000} onClose={this.handleClose}>
+          <Alert onClose={this.handleClose} severity="success">
+            Booking is cancelled!
+          </Alert>
+        </Snackbar>
       </div>
     );
   }

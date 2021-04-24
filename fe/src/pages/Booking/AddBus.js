@@ -133,7 +133,7 @@ const AddBus = () => {
     axios
       .post(busAddUrl, busDetails)
       .then((res) => {
-        alert(JSON.stringify(res.data));
+        console.log(JSON.stringify(res.data));
         setOpen(true);
         // history.push("/login");
       })
@@ -221,7 +221,7 @@ const AddBus = () => {
               required
               fullWidth
               id="duration"
-              label={"Duration"}
+              label={"Journey Duration"}
               name="duration"
               autoComplete="duration"
               autoFocus

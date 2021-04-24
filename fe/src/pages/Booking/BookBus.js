@@ -106,6 +106,21 @@ const useStyles = makeStyles((theme) => ({
     //padding: '30px',  
     marginBottom: '30px', 
   },
+  root: {
+    display: "flex",
+    // width: "100%",
+    // marginTop: theme.spacing.unit * 3,
+    overflowX: "auto",
+  },
+  table: {
+    width: "100%",
+    // display: 'block',
+    // tableLayout: 'fixed',
+    overflowX: "auto",
+  },
+  TableCell:{
+    whiteSpace: 'nowrap'
+  }
 }))
 
 
@@ -162,7 +177,7 @@ const SignIn = () => {
     
    await axios.post(bussearchUrl, bus).then((res) => {
         // cookies.set('authToken', res.headers['x-auth-token'], { path: '/' });
-        alert(JSON.stringify(res.data));
+        console.log(JSON.stringify(res.data));
         console.log("All buses")
         console.log(res.data);
         
@@ -243,7 +258,7 @@ const SignIn = () => {
             setSnacopen(true);
             
         }).catch((e) => {
-            alert(e.response.data);
+            console.log(e.response.data);
         });
 
         
@@ -331,8 +346,8 @@ const SignIn = () => {
       {isRes&&(isBusAvailable?
       <div>
     {
-        <Paper>
-          <Table>
+        <Paper className={classes.root}>
+          <Table lassName={classes.table}>
             <TableHead>
               <TableRow>
                 <TableCell>Bus Id</TableCell>
@@ -383,7 +398,7 @@ const SignIn = () => {
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Book Bus</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText style={{color:'#BCA136'}}>
             Please enter the number seats you want to book
           </DialogContentText>
           <TextField
