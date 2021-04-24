@@ -267,7 +267,7 @@ const SignIn = (props) => {
             <Paper className={classes.paper} elevation={6}>
               <div className={classes.container}>
                 <Typography component="h1" variant="h5">
-                  {"Sign In"}
+                  {"Uber Sign In"}
                 </Typography>
                 <Typography gutterBottom>
                   Login using username and password
